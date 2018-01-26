@@ -15,8 +15,41 @@
     <activity android:name=".MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
         <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity
+      android:label="@string/title_recipestep_list"
+      android:name=".RecipeStepListActivity"
+      android:parentActivityName=".MainActivity"
+      android:theme="@style/AppTheme.NoActionBar">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value="com.example.ab.bakingtime.MainActivity"/>
+    </activity>
+    <activity
+      android:label="@string/title_recipestep_detail"
+      android:name=".RecipeStepDetailActivity"
+      android:parentActivityName=".RecipeStepListActivity"
+      android:theme="@style/AppTheme.NoActionBar">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value="com.example.ab.bakingtime.RecipeStepListActivity"/>
+    </activity>
+
+    <receiver android:name=".widget.RecipeIngredientAppWidget">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+      </intent-filter>
+
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/recipe_ingredient_app_widget_info"/>
+    </receiver>
+
+    <activity android:name=".widget.RecipeIngredientAppWidgetConfigureActivity">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
       </intent-filter>
     </activity>
   </application>

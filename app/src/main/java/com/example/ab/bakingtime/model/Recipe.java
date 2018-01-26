@@ -2,13 +2,11 @@ package com.example.ab.bakingtime.model;
 
 import android.os.Parcel;
 import com.squareup.moshi.Json;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @json annotations are for moshi json library.
+ *@json annotations are for moshi library.
  */
-
 public class Recipe implements android.os.Parcelable {
 
   public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -28,6 +26,8 @@ public class Recipe implements android.os.Parcelable {
   private String mName;
   @Json(name = "ingredients")
   private List<Ingredient> mIngredientList;
+  @Json(name = "steps")
+  private List<Step> mStepsList;
 
   public Recipe() {
   }
@@ -35,8 +35,16 @@ public class Recipe implements android.os.Parcelable {
   protected Recipe(Parcel in) {
     this.mId = in.readInt();
     this.mName = in.readString();
-    this.mIngredientList = new ArrayList<>();
-    in.readList(this.mIngredientList, Ingredient.class.getClassLoader());
+    this.mIngredientList = in.createTypedArrayList(Ingredient.CREATOR);
+    this.mStepsList = in.createTypedArrayList(Step.CREATOR);
+  }
+
+  public List<Step> getStepsList() {
+    return mStepsList;
+  }
+
+  public void setStepsList(List<Step> stepsList) {
+    mStepsList = stepsList;
   }
 
   public String getName() {
@@ -64,60 +72,8 @@ public class Recipe implements android.os.Parcelable {
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(this.mId);
     dest.writeString(this.mName);
-    dest.writeList(this.mIngredientList);
+    dest.writeTypedList(this.mIngredientList);
+    dest.writeTypedList(this.mStepsList);
   }
 
-  static class Ingredient implements android.os.Parcelable {
-
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-      @Override
-      public Ingredient createFromParcel(Parcel source) {
-        return new Ingredient(source);
-      }
-
-      @Override
-      public Ingredient[] newArray(int size) {
-        return new Ingredient[size];
-      }
-    };
-    @Json(name = "quantity")
-    private float quantity;
-    @Json(name = "measure")
-    private String measure;
-    @Json(name = "ingredient")
-    private String mName;
-
-    public Ingredient() {
-    }
-
-    protected Ingredient(Parcel in) {
-      this.quantity = in.readFloat();
-      this.measure = in.readString();
-      this.mName = in.readString();
-    }
-
-    public float getQuantity() {
-      return quantity;
-    }
-
-    public String getMeasure() {
-      return measure;
-    }
-
-    public String getName() {
-      return mName;
-    }
-
-    @Override
-    public int describeContents() {
-      return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-      dest.writeFloat(this.quantity);
-      dest.writeString(this.measure);
-      dest.writeString(this.mName);
-    }
-  }
 }

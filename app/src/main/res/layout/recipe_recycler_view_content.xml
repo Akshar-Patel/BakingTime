@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@android:color/holo_orange_dark"
+    app:cardBackgroundColor="@color/colorAccent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -21,11 +21,11 @@
     card_view:cardUseCompatPadding="true"
     >
     <TextView
-      android:id="@+id/tv_recipe_name"
+      android:id="@+id/text_view_recipe_name"
       style="@style/TextAppearance.AppCompat.Large"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:padding="16dp"
+      android:padding="@dimen/default_padding"
       android:textAlignment="center"
       android:textColor="@android:color/white"
       tools:text="TextView"

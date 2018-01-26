@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/recycler_view_ingredients"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutManager="LinearLayoutManager"/>
+  <TextView
+    android:id="@+id/recipestep_detail"
+    style="?android:attr/textAppearanceLarge"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:textIsSelectable="true"
+    tools:context="com.example.ab.bakingtime.RecipeStepDetailFragment"/>
+</LinearLayout>
+

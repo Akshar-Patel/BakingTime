@@ -1,6 +1,7 @@
 package com.example.ab.bakingtime;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.ab.bakingtime.model.Recipe;
+import com.example.ab.bakingtime.util.Util;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
@@ -26,9 +28,10 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Recipe>> {
 
+  public static final String RECIPE_LIST_KEY = "recipe_list";
   private static final int RECIPE_LOADER = 0;
-  private static String TAG = MainActivity.class.getSimpleName();
-  List<Recipe> mRecipeList;
+  public List<Recipe> mRecipeList;
+
   RecyclerView mRecipeRecyclerView;
   RecipeRecyclerViewAdapter mRecipeRecyclerViewAdapter;
 
@@ -37,9 +40,8 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    mRecipeRecyclerView = findViewById(R.id.recipe_recycler_view);
+    mRecipeRecyclerView = findViewById(R.id.recycler_view_recipe_list);
     GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
-
     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
       gridLayoutManager.setSpanCount(3);
     }
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     mRecipeList = data;
     mRecipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(mRecipeList);
     mRecipeRecyclerView.setAdapter(mRecipeRecyclerViewAdapter);
+    Util.saveInSharedPref(this, RECIPE_LIST_KEY, mRecipeList);
   }
 
   @Override
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
   static class RecipeLoader extends AsyncTaskLoader<List<Recipe>> {
 
-    private static final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    private static final String URL = BuildConfig.API_URL;
 
     private static final OkHttpClient client = new OkHttpClient();
 
@@ -110,8 +113,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Recipe recipe = (Recipe) view.getTag();
-
+        int recipeId = (int) view.getTag();
+        Intent intent = new Intent(view.getContext(), RecipeStepListActivity.class);
+        intent.putExtra(RecipeStepListActivity.EXTRA_RECIPE_ID_KEY, recipeId);
+        view.getContext().startActivity(intent);
       }
     };
     List<Recipe> mRecipeList;
@@ -124,14 +129,14 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     @Override
     public RecipeRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
       View view = LayoutInflater.from(parent.getContext())
-          .inflate(R.layout.recipe_recycler_view_item, parent, false);
+          .inflate(R.layout.recipe_recycler_view_content, parent, false);
       return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecipeRecyclerViewAdapter.ViewHolder holder, int position) {
       holder.mRecipeNameTextView.setText(mRecipeList.get(position).getName());
-      holder.itemView.setTag(mRecipeList.get(position));
+      holder.itemView.setTag(position);
       holder.itemView.setOnClickListener(mOnClickListener);
     }
 
@@ -149,10 +154,8 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
       public ViewHolder(View itemView) {
         super(itemView);
-        mRecipeNameTextView = itemView.findViewById(R.id.tv_recipe_name);
+        mRecipeNameTextView = itemView.findViewById(R.id.text_view_recipe_name);
       }
     }
-
-
   }
 }
