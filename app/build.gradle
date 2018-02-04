@@ -16,7 +16,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField("String", "API_URL", "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json")
+        it.buildConfigField("String", "API_URL", "\"https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json\"")
     }
 }
 
@@ -34,4 +34,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support:cardview-v7:26.1.0'
     compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.google.android.exoplayer:exoplayer:2.6.1'
 }

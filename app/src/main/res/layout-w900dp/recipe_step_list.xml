@@ -3,8 +3,6 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:layout_marginLeft="16dp"
-  android:layout_marginRight="16dp"
   android:baselineAligned="false"
   android:divider="?android:attr/dividerHorizontal"
   android:orientation="horizontal"
@@ -16,25 +14,29 @@
     master/detail flow.
     
     -->
-  <TextView
-    android:id="@+id/text_view_ingredient"
-    android:layout_width="match_parent"
+  <LinearLayout
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/text_margin"
-    android:text="@string/ingredients"
-    android:textAppearance="?attr/textAppearanceListItem"
-    />
-  <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recycler_view_recipe_step_list"
-    android:layout_width="@dimen/item_width"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:name="com.example.ab.bakingtime.RecipeStepListFragment"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.ab.bakingtime.RecipeStepListActivity"
-    tools:listitem="@layout/recipe_step_list_content"/>
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/text_view_ingredient"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="@dimen/default_padding"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:text="@string/ingredients"
+      android:textAppearance="?attr/textAppearanceListItem"
+      />
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:id="@+id/recycler_view_recipe_step_list"
+      android:layout_width="@dimen/item_width"
+      android:layout_height="match_parent"
+      android:name="com.example.ab.bakingtime.RecipeStepListFragment"
+      app:layoutManager="LinearLayoutManager"
+      tools:context="com.example.ab.bakingtime.RecipeStepListActivity"
+      tools:listitem="@layout/recipe_step_list_content"/>
+  </LinearLayout>
 
   <FrameLayout
     android:id="@+id/frame_layout_recipe_step_detail_container"

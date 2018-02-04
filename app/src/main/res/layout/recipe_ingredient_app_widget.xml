@@ -1,21 +1,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:padding="@dimen/widget_margin"
-  android:background="#09C">
+  android:background="@color/colorPrimary">
 
   <TextView
+    android:id="@+id/textViewRecipeName"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="@color/colorAccent"
+    android:gravity="center"
+    android:text="TextView"
+    android:textColor="@android:color/white"
+    android:textSize="24sp"/>
+  <TextView
     android:id="@+id/appwidget_text"
-    android:textStyle="bold|italic"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="@dimen/default_margin"
+    android:layout_below="@+id/textViewRecipeName"
     android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:background="#09C"
-    android:contentDescription="@string/appwidget_text"
-    android:text="@string/appwidget_text"
+    android:contentDescription="@string/app_widget_text"
+    android:text="@string/app_widget_text"
     android:textColor="#ffffff"
-    android:textSize="24sp"/>
+    android:textSize="20sp"/>
+
 
 </RelativeLayout>

@@ -62,7 +62,8 @@ public class RecipeStepListActivity extends AppCompatActivity {
       public void onClick(View view) {
         if (mTwoPane) {
           Bundle arguments = new Bundle();
-          arguments.putInt(RecipeStepDetailFragment.ARG_RECIPE_INGREDIENT_KEY, mRecipeId);
+          arguments.putInt(RecipeStepDetailFragment.ARG_RECIPE_ID_KEY, mRecipeId);
+          arguments.putBoolean(RecipeStepDetailFragment.ARG_IS_FOR_INGREDIENT, true);
           RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
           fragment.setArguments(arguments);
           getSupportFragmentManager().beginTransaction()
@@ -71,7 +72,8 @@ public class RecipeStepListActivity extends AppCompatActivity {
         } else {
           Context context = view.getContext();
           Intent intent = new Intent(context, RecipeStepDetailActivity.class);
-          intent.putExtra(RecipeStepDetailFragment.ARG_RECIPE_INGREDIENT_KEY, mRecipeId);
+          intent.putExtra(RecipeStepDetailFragment.ARG_IS_FOR_INGREDIENT, true);
+          intent.putExtra(RecipeStepDetailFragment.ARG_RECIPE_ID_KEY, mRecipeId);
           context.startActivity(intent);
         }
       }
@@ -115,6 +117,7 @@ public class RecipeStepListActivity extends AppCompatActivity {
         int stepId = (int) view.getTag();
         if (mTwoPane) {
           Bundle arguments = new Bundle();
+          arguments.putInt(RecipeStepDetailFragment.ARG_RECIPE_ID_KEY, mRecipeId);
           arguments.putInt(RecipeStepDetailFragment.ARG_RECIPE_STEP_ID_KEY, stepId);
           RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
           fragment.setArguments(arguments);
@@ -125,6 +128,7 @@ public class RecipeStepListActivity extends AppCompatActivity {
           Context context = view.getContext();
           Intent intent = new Intent(context, RecipeStepDetailActivity.class);
           intent.putExtra(RecipeStepDetailFragment.ARG_RECIPE_STEP_ID_KEY, stepId);
+          intent.putExtra(RecipeStepDetailFragment.ARG_RECIPE_ID_KEY, mRecipeId);
           context.startActivity(intent);
         }
       }
@@ -133,7 +137,7 @@ public class RecipeStepListActivity extends AppCompatActivity {
     RecipeListRecyclerViewAdapter(RecipeStepListActivity parent,
         int recipeId,
         boolean twoPane) {
-      List<Recipe> recipeList = (List<Recipe>) Util
+      List<Recipe> recipeList = Util
           .loadFromSharedPref(parent, MainActivity.RECIPE_LIST_KEY);
       mValues = recipeList.get(recipeId).getStepsList();
       mParentActivity = parent;

@@ -10,7 +10,8 @@
     android:id="@+id/text_view_ingredient"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/text_margin"
+    android:padding="@dimen/default_padding"
+    android:foreground="?android:attr/selectableItemBackground"
     android:text="@string/ingredients"
     android:textAppearance="?attr/textAppearanceListItem"
     />
@@ -18,7 +19,6 @@
     android:id="@+id/recycler_view_recipe_step_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     android:name="com.example.ab.bakingtime.RecipeStepListFragment"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.example.ab.bakingtime.RecipeStepListActivity"

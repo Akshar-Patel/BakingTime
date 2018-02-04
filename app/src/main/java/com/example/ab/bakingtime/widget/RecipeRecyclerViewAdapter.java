@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.ab.bakingtime.R;
+import com.example.ab.bakingtime.model.Ingredient;
+import java.util.List;
 
 class RecipeRecyclerViewAdapter extends
     RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
@@ -23,6 +25,28 @@ class RecipeRecyclerViewAdapter extends
       RecipeIngredientAppWidgetConfigureActivity
           .saveTitlePref(view.getContext(), RecipeIngredientAppWidgetConfigureActivity.mAppWidgetId,
               RecipeIngredientAppWidgetConfigureActivity.mRecipeList.get(recipeId).getName());
+
+      List<Ingredient> ingredientList = RecipeIngredientAppWidgetConfigureActivity.mRecipeList
+          .get(recipeId).getIngredientList();
+      StringBuilder sb = new StringBuilder();
+      int count = 1;
+      for (Ingredient ingredient : ingredientList) {
+        String string = ingredient.getName().toLowerCase();
+        String[] strings = string.split(" ");
+
+        sb.append(count++);
+        sb.append(". ");
+        for (String s : strings) {
+
+          sb.append(s.substring(0, 1).toUpperCase());
+          sb.append(s.substring(1));
+          sb.append(" ");
+        }
+        //sb.append(string);
+        sb.append("\n");
+      }
+      RecipeIngredientAppWidgetConfigureActivity.saveIngredientsPref(view.getContext(),
+          RecipeIngredientAppWidgetConfigureActivity.mAppWidgetId, sb.toString());
 
       // It is the responsibility of the configuration activity to update the app widget
       AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(view.getContext());

@@ -3,6 +3,7 @@ package com.example.ab.bakingtime.widget;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.util.Log;
 import android.widget.RemoteViews;
 import com.example.ab.bakingtime.R;
 
@@ -15,12 +16,18 @@ public class RecipeIngredientAppWidget extends AppWidgetProvider {
   static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
       int appWidgetId) {
 
-    CharSequence widgetText = RecipeIngredientAppWidgetConfigureActivity
+    String recipeText = RecipeIngredientAppWidgetConfigureActivity
         .loadTitlePref(context, appWidgetId);
+
+    Log.d("recipe", recipeText);
+
+    String widgetText = RecipeIngredientAppWidgetConfigureActivity
+        .loadIngredientsPref(context, appWidgetId);
     // Construct the RemoteViews object
     RemoteViews views = new RemoteViews(context.getPackageName(),
         R.layout.recipe_ingredient_app_widget);
     views.setTextViewText(R.id.appwidget_text, widgetText);
+    views.setTextViewText(R.id.textViewRecipeName, recipeText);
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views);

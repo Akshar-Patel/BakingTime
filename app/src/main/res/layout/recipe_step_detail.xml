@@ -2,20 +2,64 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content"
+  android:layout_height="match_parent"
   android:orientation="vertical">
   <android.support.v7.widget.RecyclerView
     android:id="@+id/recycler_view_ingredients"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layoutManager="LinearLayoutManager"/>
-  <TextView
-    android:id="@+id/recipestep_detail"
-    style="?android:attr/textAppearanceLarge"
+  <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+    android:id="@+id/exo_player"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="com.example.ab.bakingtime.RecipeStepDetailFragment"/>
+    android:layout_height="230dp"
+    android:layout_marginTop="0dp"
+    android:background="@android:color/black"
+    />
+  <android.support.constraint.ConstraintLayout
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
+    <TextView
+      android:id="@+id/recipe_step_short_desc"
+      style="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:padding="16dp"
+      android:textIsSelectable="true"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:context="com.example.ab.bakingapp.RecipeDetailFragment"/>
+    <Button
+      android:id="@+id/button3"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginRight="8dp"
+      android:text="previous"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/button2"/>
+    <Button
+      android:id="@+id/button2"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:text="next"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/button3"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"/>
+
+  </android.support.constraint.ConstraintLayout>
 </LinearLayout>
 

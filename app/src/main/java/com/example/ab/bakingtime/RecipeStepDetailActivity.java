@@ -32,10 +32,12 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
     //
     if (savedInstanceState == null) {
       Bundle arguments = new Bundle();
-      arguments.putInt(RecipeStepDetailFragment.ARG_RECIPE_INGREDIENT_KEY,
-          getIntent().getIntExtra(RecipeStepDetailFragment.ARG_RECIPE_INGREDIENT_KEY, -1));
+      arguments.putInt(RecipeStepDetailFragment.ARG_RECIPE_ID_KEY,
+          getIntent().getIntExtra(RecipeStepDetailFragment.ARG_RECIPE_ID_KEY, -1));
       arguments.putInt(RecipeStepDetailFragment.ARG_RECIPE_STEP_ID_KEY,
           getIntent().getIntExtra(RecipeStepDetailFragment.ARG_RECIPE_STEP_ID_KEY, -1));
+      arguments.putBoolean(RecipeStepDetailFragment.ARG_IS_FOR_INGREDIENT,
+          getIntent().getBooleanExtra(RecipeStepDetailFragment.ARG_IS_FOR_INGREDIENT, false));
       RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
       fragment.setArguments(arguments);
       getSupportFragmentManager().beginTransaction()

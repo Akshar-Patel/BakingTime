@@ -1,9 +1,9 @@
 <resources>
   <string name="app_name">Baking Time</string>
-  <string name="title_recipestep_list">RecipeSteps</string>
-  <string name="title_recipestep_detail">RecipeStep Detail</string>
+  <string name="title_recipe_step_list">Recipe Steps</string>
+  <string name="title_recipe_step_detail">Recipe Step Detail</string>
   <string name="ingredients">Ingredients</string>
-  <string name="appwidget_text">EXAMPLE</string>
+  <string name="app_widget_text">EXAMPLE</string>
   <string name="configure">Configure</string>
   <string name="add_widget">Add widget</string>
 </resources>

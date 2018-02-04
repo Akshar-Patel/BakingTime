@@ -24,6 +24,7 @@ public class RecipeIngredientAppWidgetConfigureActivity extends Activity {
 
   private static final String PREFS_NAME = "com.example.ab.bakingtime.widget.RecipeIngredientAppWidget";
   private static final String PREF_PREFIX_KEY = "appwidget_";
+  private static final String PREF_RECIPE_NAME_KEY = "recipe_name";
   public static List<Recipe> mRecipeList;
   static int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
   RecyclerView mRecyclerViewRecipes;
@@ -56,7 +57,7 @@ public class RecipeIngredientAppWidgetConfigureActivity extends Activity {
   // Write the prefix to the SharedPreferences object for this widget
   static void saveTitlePref(Context context, int appWidgetId, String text) {
     SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-    prefs.putString(PREF_PREFIX_KEY + appWidgetId, text);
+    prefs.putString(PREF_PREFIX_KEY + PREF_RECIPE_NAME_KEY + appWidgetId, text);
     prefs.apply();
   }
 
@@ -64,11 +65,11 @@ public class RecipeIngredientAppWidgetConfigureActivity extends Activity {
   // If there is no preference saved, get the default from a resource
   static String loadTitlePref(Context context, int appWidgetId) {
     SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-    String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
+    String titleValue = prefs.getString(PREF_PREFIX_KEY + PREF_RECIPE_NAME_KEY + appWidgetId, null);
     if (titleValue != null) {
       return titleValue;
     } else {
-      return context.getString(R.string.appwidget_text);
+      return context.getString(R.string.app_widget_text);
     }
   }
 
@@ -78,6 +79,21 @@ public class RecipeIngredientAppWidgetConfigureActivity extends Activity {
     prefs.apply();
   }
 
+  static void saveIngredientsPref(Context context, int appWidgetId, String stringIngredientsList) {
+    SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+    prefs.putString(PREF_PREFIX_KEY + appWidgetId, stringIngredientsList);
+    prefs.apply();
+  }
+
+  static String loadIngredientsPref(Context context, int appWidgetId) {
+    SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+    String stringIngredientsList = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
+    if (stringIngredientsList != null) {
+      return stringIngredientsList;
+    } else {
+      return context.getString(R.string.app_widget_text);
+    }
+  }
   void passBack() {
     Intent resultValue = new Intent();
     resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
