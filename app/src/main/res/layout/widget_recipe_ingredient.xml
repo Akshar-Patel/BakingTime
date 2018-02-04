@@ -18,7 +18,7 @@
     android:id="@+id/appwidget_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/default_margin"
+    android:layout_margin="@dimen/default_single_margin"
     android:layout_below="@+id/textViewRecipeName"
     android:layout_centerHorizontal="true"
     android:contentDescription="@string/app_widget_text"

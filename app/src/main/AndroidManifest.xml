@@ -12,7 +12,7 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name=".MainActivity">
+    <activity android:name=".activity.main.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
@@ -20,21 +20,22 @@
     </activity>
     <activity
       android:label="@string/title_recipe_step_list"
-      android:name=".RecipeStepListActivity"
-      android:parentActivityName=".MainActivity"
+      android:launchMode="singleTask"
+      android:name=".activity.recipe_step_list.RecipeStepListActivity"
+      android:parentActivityName=".activity.main.MainActivity"
       android:theme="@style/AppTheme.NoActionBar">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
-        android:value="com.example.ab.bakingtime.MainActivity"/>
+        android:value=".activity.main.MainActivity"/>
     </activity>
     <activity
       android:label="@string/title_recipe_step_detail"
-      android:name=".RecipeStepDetailActivity"
-      android:parentActivityName=".RecipeStepListActivity"
+      android:name=".activity.recipe_step_list.recipe_step_detail.RecipeStepDetailActivity"
+      android:parentActivityName=".activity.recipe_step_list.RecipeStepListActivity"
       android:theme="@style/AppTheme.NoActionBar">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
-        android:value="com.example.ab.bakingtime.RecipeStepListActivity"/>
+        android:value=".activity.recipe_step_list.RecipeStepListActivity"/>
     </activity>
 
     <receiver android:name=".widget.RecipeIngredientAppWidget">

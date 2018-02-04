@@ -4,7 +4,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
 
-  tools:context="com.example.ab.bakingtime.RecipeStepDetailActivity"
+  tools:context=".activity.recipe_step_list.recipe_step_detail.RecipeStepDetailActivity"
   tools:ignore="MergeRootFrame">
 
   <android.support.design.widget.AppBarLayout

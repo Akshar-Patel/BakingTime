@@ -16,6 +16,19 @@
     android:layout_marginTop="0dp"
     android:background="@android:color/black"
     />
+  <TextView
+    android:id="@+id/text_view_no_video"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:layout_marginTop="0dp"
+    android:background="@android:color/black"
+    android:gravity="center"
+    android:text="@string/text_view_no_video_available"
+    android:textColor="@android:color/white"
+    android:textSize="@dimen/default_single_text_size"
+    android:visibility="gone"
+    />
+
   <android.support.constraint.ConstraintLayout
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
@@ -23,40 +36,48 @@
     android:layout_weight="1">
     <TextView
       android:id="@+id/recipe_step_short_desc"
-      style="?android:attr/textAppearanceLarge"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:layout_marginStart="8dp"
-      android:layout_marginEnd="8dp"
-      android:padding="16dp"
-      android:textIsSelectable="true"
+      android:layout_margin="@dimen/default_single_margin"
+      android:padding="@dimen/default_single_padding"
+      android:textAppearance="@style/TextAppearance.AppCompat.Headline"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       tools:context="com.example.ab.bakingapp.RecipeDetailFragment"/>
+    <TextView
+      android:id="@+id/recipe_step_long_desc"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/default_single_margin"
+      android:padding="@dimen/default_single_padding"
+      android:textSize="@dimen/default_single_text_size"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/recipe_step_short_desc"
+      tools:context="com.example.ab.bakingapp.RecipeDetailFragment"/>
     <Button
-      android:id="@+id/button3"
+      android:id="@+id/button_recipe_step_next"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
       android:layout_marginEnd="8dp"
       android:layout_marginRight="8dp"
-      android:text="previous"
+      android:text="next"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toEndOf="@+id/button2"/>
+      app:layout_constraintStart_toEndOf="@+id/button_recipe_step_prev"/>
     <Button
-      android:id="@+id/button2"
+      android:id="@+id/button_recipe_step_prev"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
       android:layout_marginStart="8dp"
       android:layout_marginLeft="8dp"
-      android:text="next"
+      android:text="previous"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/button3"
+      app:layout_constraintEnd_toStartOf="@+id/button_recipe_step_next"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent"/>
 

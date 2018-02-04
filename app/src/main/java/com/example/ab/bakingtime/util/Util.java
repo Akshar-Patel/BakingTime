@@ -13,6 +13,8 @@ import java.util.List;
 
 public class Util {
 
+  public static final String RECIPE_LIST_KEY = "recipe_list";
+
   public static List<Recipe> loadFromSharedPref(Context context, String key) {
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     Gson gson = new Gson();

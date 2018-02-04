@@ -14,7 +14,7 @@
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:padding="@dimen/default_padding"
+    android:padding="@dimen/default_double_padding"
     android:foreground="?android:attr/selectableItemBackground"
     android:textAlignment="center"
     app:layout_constraintBottom_toBottomOf="parent"

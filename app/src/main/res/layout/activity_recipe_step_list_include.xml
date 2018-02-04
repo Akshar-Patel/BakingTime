@@ -10,7 +10,7 @@
     android:id="@+id/text_view_ingredient"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/default_padding"
+    android:padding="@dimen/default_double_padding"
     android:foreground="?android:attr/selectableItemBackground"
     android:text="@string/ingredients"
     android:textAppearance="?attr/textAppearanceListItem"
@@ -21,7 +21,7 @@
     android:layout_height="match_parent"
     android:name="com.example.ab.bakingtime.RecipeStepListFragment"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.ab.bakingtime.RecipeStepListActivity"
-    tools:listitem="@layout/recipe_step_list_content"/>
+    tools:context=".activity.recipe_step_list.RecipeStepListActivity"
+    tools:listitem="@layout/activity_recipe_step_list_item"/>
 </LinearLayout>
 
