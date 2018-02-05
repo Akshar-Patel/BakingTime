@@ -11,20 +11,19 @@
     android:layout_centerHorizontal="true"
     android:background="@color/colorAccent"
     android:gravity="center"
-    android:text="TextView"
     android:textColor="@android:color/white"
-    android:textSize="24sp"/>
+    android:textSize="@dimen/text_size_xlarge_default"/>
   <TextView
     android:id="@+id/appwidget_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/default_single_margin"
+    android:layout_margin="@dimen/margin_single_default"
     android:layout_below="@+id/textViewRecipeName"
     android:layout_centerHorizontal="true"
     android:contentDescription="@string/app_widget_text"
     android:text="@string/app_widget_text"
-    android:textColor="#ffffff"
-    android:textSize="20sp"/>
+    android:textColor="@android:color/white"
+    android:textSize="@dimen/text_size_large_default"/>
 
 
 </RelativeLayout>

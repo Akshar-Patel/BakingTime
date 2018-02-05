@@ -6,7 +6,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:layout_margin="8dp">
+  android:layout_margin="@dimen/margin_single_default">
 
   <android.support.v7.widget.CardView
     android:layout_width="match_parent"
@@ -25,7 +25,7 @@
       style="@style/TextAppearance.AppCompat.Large"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:padding="@dimen/default_double_padding"
+      android:padding="@dimen/padding_double_default"
       android:textAlignment="center"
       android:textColor="@android:color/white"
       tools:text="TextView"

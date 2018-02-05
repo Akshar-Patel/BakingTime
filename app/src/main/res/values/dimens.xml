@@ -4,11 +4,13 @@
   <dimen name="app_bar_height">200dp</dimen>
   <dimen name="item_width">200dp</dimen>
 
-  <dimen name="default_single_margin">8dp</dimen>
-  <dimen name="default_double_margin">16dp</dimen>
-  <dimen name="default_single_padding">8dp</dimen>
-  <dimen name="default_double_padding">16dp</dimen>
-  <dimen name="default_single_text_size">16sp</dimen>
-  <dimen name="default_title_text_size">18sp</dimen>
+  <dimen name="margin_single_default">8dp</dimen>
+  <dimen name="margin_double_default">16dp</dimen>
+  <dimen name="padding_single_default">8dp</dimen>
+  <dimen name="padding_double_default">16dp</dimen>
+  <dimen name="text_size_normal_default">16sp</dimen>
+  <dimen name="text_size_medium_default">18sp</dimen>
+  <dimen name="text_size_large_default">18sp</dimen>
+  <dimen name="text_size_xlarge_default">24sp</dimen>
 
 </resources>
