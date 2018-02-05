@@ -1,6 +1,7 @@
 package com.example.ab.bakingtime.activity.recipe_step_list.recipe_step_detail;
 
-import android.content.Context;
+import static com.example.ab.bakingtime.util.Util.isTablet;
+
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -52,6 +53,7 @@ public class RecipeStepDetailFragment extends Fragment {
   public static final String ARG_RECIPE_ID_KEY = "recipe_id";
   public static final String ARG_IS_FOR_INGREDIENT = "is_ingredient";
   private static final String KEY_RECIPE_STEP_ID = "step_id";
+  private static final String KEY_PLAYER_POSITION = "player_position";
   private int mStepId;
   private int mRecipeId;
   private boolean mIsForIngredient;
@@ -61,6 +63,10 @@ public class RecipeStepDetailFragment extends Fragment {
   private TextView mShortDescTextView;
   private TextView mLongDescTextView;
   private SimpleIdlingResource mSimpleIdlingResource;
+  private SimpleExoPlayer mPlayer;
+  private long mPlayerPosition;
+  private MediaSource mVideoSource;
+
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the
    * fragment (e.g. upon screen orientation changes).
@@ -85,6 +91,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
     if (savedInstanceState != null) {
       mStepId = savedInstanceState.getInt(KEY_RECIPE_STEP_ID);
+      mPlayerPosition = savedInstanceState.getLong(KEY_PLAYER_POSITION);
     } else {
       if (getArguments().containsKey(ARG_RECIPE_STEP_ID_KEY)) {
         mStepId = getArguments().getInt(ARG_RECIPE_STEP_ID_KEY);
@@ -97,6 +104,7 @@ public class RecipeStepDetailFragment extends Fragment {
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putInt(KEY_RECIPE_STEP_ID, mStepId);
+    outState.putLong(KEY_PLAYER_POSITION, mPlayer.getCurrentPosition());
   }
 
   @Override
@@ -131,7 +139,7 @@ public class RecipeStepDetailFragment extends Fragment {
         mNoVideoTextView.setVisibility(View.VISIBLE);
       }
       makeFullScreenInLandscape(rootView, actionBar);
-      ((TextView) rootView.findViewById(R.id.recipe_step_short_desc)).setText(mRecipeList
+      ((TextView) rootView.findViewById(R.id.text_view_recipe_step_short_desc)).setText(mRecipeList
           .get(mRecipeId).getStepsList().get(mStepId).getDesc());
 
       setUpDescription(rootView, mStepId);
@@ -145,6 +153,17 @@ public class RecipeStepDetailFragment extends Fragment {
       mSimpleIdlingResource.setIdleState(true);
     }
     return rootView;
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    if (mVideoSource != null) {
+      mVideoSource.releaseSource();
+    }
+    if (mPlayer != null) {
+      mPlayer.release();
+    }
   }
 
   void loadPrevStep(View view) {
@@ -185,10 +204,10 @@ public class RecipeStepDetailFragment extends Fragment {
   }
 
   private void setUpDescription(View view, int stepId) {
-    mShortDescTextView = view.findViewById(R.id.recipe_step_short_desc);
+    mShortDescTextView = view.findViewById(R.id.text_view_recipe_step_short_desc);
     mShortDescTextView
         .setText(mRecipeList.get(mRecipeId).getStepsList().get(stepId).getShortDesc());
-    mLongDescTextView = view.findViewById(R.id.recipe_step_long_desc);
+    mLongDescTextView = view.findViewById(R.id.text_view_recipe_step_long_desc);
     mLongDescTextView.setText(mRecipeList.get(mRecipeId).getStepsList().get(stepId).getDesc());
   }
 
@@ -202,9 +221,8 @@ public class RecipeStepDetailFragment extends Fragment {
         new DefaultTrackSelector(videoTrackSelectionFactory);
 
     // 2. Create the player
-    SimpleExoPlayer player =
-        ExoPlayerFactory.newSimpleInstance(view.getContext(), trackSelector);
-    mSimpleExoPlayerView.setPlayer(player);
+    mPlayer = ExoPlayerFactory.newSimpleInstance(view.getContext(), trackSelector);
+    mSimpleExoPlayerView.setPlayer(mPlayer);
     mSimpleExoPlayerView.setUseArtwork(true);
 
     // Produces DataSource instances through which media data is loaded.
@@ -213,12 +231,14 @@ public class RecipeStepDetailFragment extends Fragment {
             .getUserAgent(view.getContext(), getString(R.string.app_name)), bandwidthMeter);
 
     // This is the MediaSource representing the media to be played.
-    MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+    mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
         .createMediaSource(Uri.parse(url));
 
     // Prepare the player with the source.
-    player.prepare(videoSource);
-
+    mPlayer.prepare(mVideoSource);
+    if (mPlayerPosition > 0L) {
+      mPlayer.seekTo(mPlayerPosition);
+    }
 
   }
 
@@ -242,11 +262,5 @@ public class RecipeStepDetailFragment extends Fragment {
     }
   }
 
-  public boolean isTablet(Context context) {
-    boolean xlarge = ((context.getResources().getConfiguration().screenLayout
-        & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-    boolean large = ((context.getResources().getConfiguration().screenLayout
-        & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-    return (xlarge || large);
-  }
+
 }

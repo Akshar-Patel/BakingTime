@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import com.example.ab.bakingtime.BuildConfig;
 import com.example.ab.bakingtime.R;
 import com.example.ab.bakingtime.model.Recipe;
@@ -28,11 +29,10 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Recipe>> {
 
   private static final int RECIPE_LOADER = 0;
+  static MainActivity mMainActivity;
   public List<Recipe> mRecipeList;
-
   RecyclerView mRecipeRecyclerView;
   RecipeListRecyclerViewAdapter mRecipeListRecyclerViewAdapter;
-
   @Nullable
   private SimpleIdlingResource mSimpleIdlingResource;
 
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    mMainActivity = this;
 
     mRecipeRecyclerView = findViewById(R.id.recycler_view_recipe_list);
     GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
   @Override
   public Loader<List<Recipe>> onCreateLoader(int id, Bundle args) {
+    if (mSimpleIdlingResource != null) {
+      mSimpleIdlingResource.setIdleState(false);
+    }
+    findViewById(R.id.progress_bar_recipe_list).setVisibility(View.VISIBLE);
     return new RecipeLoader(this, mSimpleIdlingResource);
   }
 
@@ -62,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     mRecipeListRecyclerViewAdapter = new RecipeListRecyclerViewAdapter(mRecipeList);
     mRecipeRecyclerView.setAdapter(mRecipeListRecyclerViewAdapter);
     Util.saveInSharedPref(this, Util.RECIPE_LIST_KEY, mRecipeList);
+    findViewById(R.id.progress_bar_recipe_list).setVisibility(View.GONE);
+    if (mSimpleIdlingResource != null) {
+      mSimpleIdlingResource.setIdleState(true);
+    }
   }
 
   @Override
@@ -98,9 +107,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     @Override
     protected void onStartLoading() {
-      if (mSimpleIdlingResource != null) {
-        mSimpleIdlingResource.setIdleState(false);
-      }
+
       if (mRecipeList != null) {
         deliverResult(mRecipeList);
       } else {
@@ -119,9 +126,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         response = client.newCall(request).execute();
         if (!response.isSuccessful()) {
           throw new IOException("Unexpected code " + response);
-        }
-        if (mSimpleIdlingResource != null) {
-          mSimpleIdlingResource.setIdleState(true);
         }
         return recipeJsonAdapter.fromJson(response.body().source());
       } catch (IOException e) {

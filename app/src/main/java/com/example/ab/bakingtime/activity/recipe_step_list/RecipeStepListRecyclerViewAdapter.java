@@ -86,7 +86,7 @@ public class RecipeStepListRecyclerViewAdapter
 
     ViewHolder(View view) {
       super(view);
-      mStepNameTextView = view.findViewById(R.id.text_view_content);
+      mStepNameTextView = view.findViewById(R.id.text_view_recipe_step_name);
     }
   }
 }
