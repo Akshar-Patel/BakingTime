@@ -12,8 +12,9 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_double_default"
     android:foreground="?android:attr/selectableItemBackground"
+    android:gravity="center"
     android:text="@string/ingredients"
-    android:textAppearance="?attr/textAppearanceListItem"
+    android:textSize="@dimen/text_size_medium_default"
     />
   <android.support.v7.widget.RecyclerView
     android:id="@+id/recycler_view_recipe_step_list"

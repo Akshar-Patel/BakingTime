@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.ab.bakingtime.R;
 import com.example.ab.bakingtime.activity.recipe_step_list.recipe_step_detail.RecipeStepDetailActivity;
@@ -14,6 +16,7 @@ import com.example.ab.bakingtime.activity.recipe_step_list.recipe_step_detail.Re
 import com.example.ab.bakingtime.model.Recipe;
 import com.example.ab.bakingtime.model.Step;
 import com.example.ab.bakingtime.util.Util;
+import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class RecipeStepListRecyclerViewAdapter
@@ -71,6 +74,14 @@ public class RecipeStepListRecyclerViewAdapter
   @Override
   public void onBindViewHolder(final ViewHolder holder, int position) {
     holder.mStepNameTextView.setText(mValues.get(position).getShortDesc());
+    String thumbnailURL = mValues.get(position).getThumbNailUrl();
+    if (!TextUtils.isEmpty(thumbnailURL)) {
+      Picasso.with(mParentActivity)
+          .load(thumbnailURL)
+          .placeholder(R.drawable.recipe_step_placeholder)
+          .error(R.drawable.recipe_step_placeholder)
+          .into(holder.mThumbnaiImageView);
+    }
     holder.itemView.setTag(position);
     holder.itemView.setOnClickListener(mOnClickListener);
   }
@@ -83,10 +94,12 @@ public class RecipeStepListRecyclerViewAdapter
   class ViewHolder extends RecyclerView.ViewHolder {
 
     final TextView mStepNameTextView;
+    ImageView mThumbnaiImageView;
 
     ViewHolder(View view) {
       super(view);
       mStepNameTextView = view.findViewById(R.id.text_view_recipe_step_name);
+      mThumbnaiImageView = view.findViewById(R.id.image_view_thumbnail);
     }
   }
 }

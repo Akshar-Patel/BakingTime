@@ -24,6 +24,8 @@ public class Step implements android.os.Parcelable {
   private String desc;
   @Json(name = "videoURL")
   private String videoUrl;
+  @Json(name = "thumbnailURL")
+  private String mThumbNailUrl;
 
   public Step() {
   }
@@ -33,6 +35,15 @@ public class Step implements android.os.Parcelable {
     this.shortDesc = in.readString();
     this.desc = in.readString();
     this.videoUrl = in.readString();
+    this.mThumbNailUrl = in.readString();
+  }
+
+  public String getThumbNailUrl() {
+    return mThumbNailUrl;
+  }
+
+  public void setThumbNailUrl(String thumbNailUrl) {
+    mThumbNailUrl = thumbNailUrl;
   }
 
   public int getId() {
@@ -78,5 +89,6 @@ public class Step implements android.os.Parcelable {
     dest.writeString(this.shortDesc);
     dest.writeString(this.desc);
     dest.writeString(this.videoUrl);
+    dest.writeString(this.mThumbNailUrl);
   }
 }

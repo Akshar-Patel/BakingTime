@@ -17,28 +17,30 @@ public class Ingredient implements android.os.Parcelable {
       return new Ingredient[size];
     }
   };
-  @Json(name = "quantity")
-  private float quantity;
-  @Json(name = "measure")
-  private String measure;
+  @Json(name = "mQuantity")
+  private float mQuantity;
+  @Json(name = "mMeasure")
+  private String mMeasure;
   @Json(name = "ingredient")
   private String mName;
+
+  @Json(name = "ingredient")
 
   public Ingredient() {
   }
 
   protected Ingredient(Parcel in) {
-    this.quantity = in.readFloat();
-    this.measure = in.readString();
+    this.mQuantity = in.readFloat();
+    this.mMeasure = in.readString();
     this.mName = in.readString();
   }
 
   public float getQuantity() {
-    return quantity;
+    return mQuantity;
   }
 
   public String getMeasure() {
-    return measure;
+    return mMeasure;
   }
 
   public String getName() {
@@ -52,8 +54,8 @@ public class Ingredient implements android.os.Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeFloat(this.quantity);
-    dest.writeString(this.measure);
+    dest.writeFloat(this.mQuantity);
+    dest.writeString(this.mMeasure);
     dest.writeString(this.mName);
   }
 }

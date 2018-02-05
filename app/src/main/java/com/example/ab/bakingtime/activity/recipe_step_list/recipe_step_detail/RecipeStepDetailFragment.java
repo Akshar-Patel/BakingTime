@@ -2,6 +2,9 @@ package com.example.ab.bakingtime.activity.recipe_step_list.recipe_step_detail;
 
 import static com.example.ab.bakingtime.util.Util.isTablet;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -12,7 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +57,8 @@ public class RecipeStepDetailFragment extends Fragment {
   public static final String ARG_IS_FOR_INGREDIENT = "is_ingredient";
   private static final String KEY_RECIPE_STEP_ID = "step_id";
   private static final String KEY_PLAYER_POSITION = "player_position";
+  private static final String KEY_PLAYER_STATE = "player_state";
+  private static final String KEY_VIDEO_URL = "video_url";
   private int mStepId;
   private int mRecipeId;
   private boolean mIsForIngredient;
@@ -65,7 +70,9 @@ public class RecipeStepDetailFragment extends Fragment {
   private SimpleIdlingResource mSimpleIdlingResource;
   private SimpleExoPlayer mPlayer;
   private long mPlayerPosition;
+  private boolean mPlayerState;
   private MediaSource mVideoSource;
+  private String mVideoUrl;
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the
@@ -92,6 +99,7 @@ public class RecipeStepDetailFragment extends Fragment {
     if (savedInstanceState != null) {
       mStepId = savedInstanceState.getInt(KEY_RECIPE_STEP_ID);
       mPlayerPosition = savedInstanceState.getLong(KEY_PLAYER_POSITION);
+      mPlayerState = savedInstanceState.getBoolean(KEY_PLAYER_STATE);
     } else {
       if (getArguments().containsKey(ARG_RECIPE_STEP_ID_KEY)) {
         mStepId = getArguments().getInt(ARG_RECIPE_STEP_ID_KEY);
@@ -104,7 +112,10 @@ public class RecipeStepDetailFragment extends Fragment {
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putInt(KEY_RECIPE_STEP_ID, mStepId);
-    outState.putLong(KEY_PLAYER_POSITION, mPlayer.getCurrentPosition());
+    if (mPlayer != null) {
+      outState.putLong(KEY_PLAYER_POSITION, mPlayer.getCurrentPosition());
+      outState.putBoolean(KEY_PLAYER_STATE, mPlayer.getPlayWhenReady());
+    }
   }
 
   @Override
@@ -131,9 +142,9 @@ public class RecipeStepDetailFragment extends Fragment {
       }
       ingredientRecyclerView.setVisibility(View.GONE);
 
-      String videoUrl = mRecipeList.get(mRecipeId).getStepsList().get(mStepId).getVideoUrl();
-      if (!videoUrl.equals("")) {
-        setUpExoPlayer(rootView, videoUrl);
+      mVideoUrl = mRecipeList.get(mRecipeId).getStepsList().get(mStepId).getVideoUrl();
+      if (!TextUtils.isEmpty(mVideoUrl)) {
+        setUpExoPlayer(rootView, mVideoUrl);
       } else {
         mSimpleExoPlayerView.setVisibility(View.GONE);
         mNoVideoTextView.setVisibility(View.VISIBLE);
@@ -156,8 +167,16 @@ public class RecipeStepDetailFragment extends Fragment {
   }
 
   @Override
-  public void onDestroy() {
-    super.onDestroy();
+  public void onPause() {
+    super.onPause();
+    SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+    Editor editor = sharedPreferences.edit();
+    editor.putString(KEY_VIDEO_URL, mVideoUrl);
+    if (mPlayer != null) {
+      editor.putLong(KEY_PLAYER_POSITION, mPlayer.getCurrentPosition());
+      editor.putBoolean(KEY_PLAYER_STATE, mPlayer.getPlayWhenReady());
+    }
+    editor.apply();
     if (mVideoSource != null) {
       mVideoSource.releaseSource();
     }
@@ -166,15 +185,37 @@ public class RecipeStepDetailFragment extends Fragment {
     }
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+    mVideoUrl = sharedPreferences.getString(KEY_VIDEO_URL, "");
+    mPlayerPosition = sharedPreferences.getLong(KEY_PLAYER_POSITION, 0L);
+    mPlayerState = sharedPreferences.getBoolean(KEY_PLAYER_STATE, true);
+    if (!TextUtils.isEmpty(mVideoUrl)) {
+      setUpExoPlayer(getView(), mVideoUrl);
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+    Editor editor = sharedPreferences.edit();
+    editor.remove(KEY_VIDEO_URL);
+    editor.remove(KEY_PLAYER_POSITION);
+    editor.remove(KEY_PLAYER_STATE);
+    editor.apply();
+  }
+
   void loadPrevStep(View view) {
     int prevStepId = mStepId - 1;
-    Log.d("prev:", prevStepId + "");
     if (prevStepId >= 0) {
-      String videoUrl = mRecipeList.get(mRecipeId).getStepsList().get(prevStepId).getVideoUrl();
-      if (!videoUrl.equals("")) {
+      mVideoUrl = mRecipeList.get(mRecipeId).getStepsList().get(prevStepId).getVideoUrl();
+      if (!TextUtils.isEmpty(mVideoUrl)) {
         mNoVideoTextView.setVisibility(View.GONE);
         mSimpleExoPlayerView.setVisibility(View.VISIBLE);
-        setUpExoPlayer(view, videoUrl);
+        setUpExoPlayer(view, mVideoUrl);
       } else {
         mSimpleExoPlayerView.setVisibility(View.GONE);
         mNoVideoTextView.setVisibility(View.VISIBLE);
@@ -239,8 +280,9 @@ public class RecipeStepDetailFragment extends Fragment {
     if (mPlayerPosition > 0L) {
       mPlayer.seekTo(mPlayerPosition);
     }
-
+    mPlayer.setPlayWhenReady(mPlayerState);
   }
+
 
   void makeFullScreenInLandscape(View view, ActionBar actionBar) {
     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
