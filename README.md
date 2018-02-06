@@ -15,4 +15,8 @@
 ### Screenshots
 
 ![home-phone](screenshots/home-phone.png)
-![recipe-phone](screenshots/home-phone.png)
+![recipe-step-phone](screenshots/recipe-step-phone.png)
+![recipe-step-detail-phone](screenshots/recipe-step-detail-phone.png)
+![widget](screenshots/widget.png)
+![home-tablet](screenshots/home-tablet.png)
+![recipe-step-detail](screenshots/recipe-step-detail-tablet.png)
