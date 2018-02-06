@@ -17,9 +17,9 @@ public class Ingredient implements android.os.Parcelable {
       return new Ingredient[size];
     }
   };
-  @Json(name = "mQuantity")
+  @Json(name = "quantity")
   private float mQuantity;
-  @Json(name = "mMeasure")
+  @Json(name = "measure")
   private String mMeasure;
   @Json(name = "ingredient")
   private String mName;
