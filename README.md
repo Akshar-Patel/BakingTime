@@ -10,7 +10,7 @@
 * Platform: Android 4.1+
 * Modules: Recipe, Step, Ingredient
 * Lines of Code:  2301
-* Duration: 1 Week (FEB 2018)
+* Duration: 1 Week (JAN 2018)
 
 ### Screenshots
 
