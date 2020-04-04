@@ -1,3 +1,4 @@
+### :small_blue_diamond: Project Year: 2018 :small_blue_diamond:
 #### (Udacity Android Developer Nanodegree Project 3)
 # Baking Time: Android App for Recipes with Videos
 ### An app to view video recipes that incorporated media loading, verifying user interfaces with UI tests, integrated third party libraries and provided a complete UX with home screen widget.
